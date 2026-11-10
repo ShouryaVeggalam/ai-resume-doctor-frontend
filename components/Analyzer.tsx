@@ -33,7 +33,7 @@ type Analysis = {
     missing: string[];
   };
   ats_checks?: {
-    check: string;
+    label: string;
     status: string;
     detail: string;
   }[];
@@ -447,7 +447,7 @@ function Results({
 
                 <div>
                   <p className="font-semibold">
-                    {check.check}
+                    {check.label}
                   </p>
 
                   <p className="mt-1 text-sm text-gray-500">

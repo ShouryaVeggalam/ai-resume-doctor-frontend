@@ -640,7 +640,7 @@ export function Analyzer() {
               </h2>
 
               <p className="text-sm text-gray-500">
-                PDF or DOCX
+                PDF or DOCX (up to 5 MB)
               </p>
             </div>
           </div>
@@ -660,12 +660,29 @@ export function Analyzer() {
 
             <input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.docx"
               className="hidden"
               onChange={(event) => {
-                const selected =
-                  event.target.files?.[0] || null;
+                const selected = event.target.files?.[0] || null;
+                setError("");
+                setAnalysis(null);
+                setOptimized(null);
 
+                if (selected) {
+                  const allowed = /\.(pdf|docx)$/i.test(selected.name);
+                  if (!allowed) {
+                    setFile(null);
+                    setError("Unsupported file type. Upload a PDF or DOCX resume.");
+                    event.currentTarget.value = "";
+                    return;
+                  }
+                  if (selected.size > 5 * 1024 * 1024) {
+                    setFile(null);
+                    setError("Your resume exceeds the 5 MB upload limit.");
+                    event.currentTarget.value = "";
+                    return;
+                  }
+                }
                 setFile(selected);
               }}
             />
